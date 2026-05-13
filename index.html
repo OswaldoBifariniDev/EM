@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Para Emi 💌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos generales */
+        body {
+            font-family: 'Segoe UI', monospace;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            transition: background-image 0.3s ease;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Fondo para página principal */
+        body.pagina-principal {
+            /* ⬇️ CAMBIA URL DE IMAGEN DE FONDO (GATOS) AQUÍ ⬇️ */
+            background-image: url('https://imgs.search.brave.com/fXZLpskUumAy9NSyNNk9NOxxgOYkvE4A68tZm_eUKek/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzBlL2Y4/L2UzLzBlZjhlM2Fh/ODNiOWJhYzU1M2Nj/YjYxMjdkYTJkOWIy/LmpwZw');
+        }
+        body.pagina-principal::before {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* Fondo para página SÍ */
+        body.pagina-si {
+            /* ⬇️ CAMBIA URL DE IMAGEN PARA RESPUESTA "SÍ" AQUÍ ⬇️ */
+            background-image: url('https://imgs.search.brave.com/N2tGtkPlxn8d4K0fPw_a0jK1j-4O_AqZG1TmJfCb-zc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvaGQvZnVu/bnktY2F0LWZyaWVu/ZHMtd2F0Y2hpbmct/dnhqaDM4ejV6YXZ5/ODhnYi5qcGc');
+        }
+        body.pagina-si::before {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Fondo para página NO */
+        body.pagina-no {
+            /* ⬇️ CAMBIA URL DE IMAGEN PARA RESPUESTA "NO" AQUÍ ⬇️ */
+            background-image: url('https://tu-enlace-imagen-triste.jpg');
+        }
+        body.pagina-no::before {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Contenedor principal de cada página */
+        .pagina {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 650px;
+            display: none;
+        }
+
+        .pagina.activa {
+            display: block;
+        }
+
+        /* Estilos para página principal */
+        .contenedor-principal {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 25px 20px;
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .mensaje-escrito {
+            font-size: 1rem;
+            line-height: 1.6;
+            text-align: left;
+            color: #2c3e2f;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            font-family: inherit;
+        }
+
+        /* Estilos para página SÍ (transparente) */
+        .contenedor-si {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 30px 25px;
+            text-align: center;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #ffffff;
+            font-weight: bold;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .poema {
+            white-space: pre-line;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* Estilos para página NO */
+        .contenedor-no {
+            background: rgba(30, 30, 30, 0.92);
+            border-radius: 30px;
+            padding: 35px 25px;
+            text-align: center;
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #ffdddd;
+            font-style: italic;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* Botones */
+        .botones {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            font-size: 1.2rem;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+            flex: 0 1 auto;
+            min-width: 120px;
+        }
+
+        .btn-si {
+            background-color: #4caf50;
+            color: white;
+        }
+        .btn-si:hover {
+            background-color: #45a049;
+            transform: scale(1.02);
+        }
+
+        .btn-no {
+            background-color: #f44336;
+            color: white;
+        }
+        .btn-no:hover {
+            background-color: #d32f2f;
+            transform: scale(1.02);
+        }
+
+        .btn-volver {
+            background-color: #666;
+            color: white;
+            margin-top: 20px;
+        }
+        .btn-volver:hover {
+            background-color: #555;
+        }
+
+        .emoji {
+            font-size: 3rem;
+            margin-top: 20px;
+        }
+
+        /* Scroll */
+        .contenedor-principal::-webkit-scrollbar,
+        .contenedor-si::-webkit-scrollbar,
+        .contenedor-no::-webkit-scrollbar {
+            width: 5px;
+        }
+        .contenedor-principal::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .contenedor-principal::-webkit-scrollbar-thumb {
+            background: #764ba2;
+            border-radius: 10px;
+        }
+        .contenedor-si::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+        .contenedor-si::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.6);
+            border-radius: 10px;
+        }
+        .contenedor-no::-webkit-scrollbar-track {
+            background: #444;
+            border-radius: 10px;
+        }
+        .contenedor-no::-webkit-scrollbar-thumb {
+            background: #ff8888;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .contenedor-principal, .contenedor-no {
+                padding: 20px 15px;
+                font-size: 0.9rem;
+            }
+            .contenedor-si {
+                padding: 25px 18px;
+                font-size: 1rem;
+            }
+            button {
+                font-size: 1rem;
+                padding: 8px 20px;
+                min-width: 100px;
+            }
+            .emoji {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="pagina-principal">
+
+    <!-- PÁGINA PRINCIPAL -->
+    <div id="paginaPrincipal" class="pagina activa">
+        <div class="contenedor-principal">
+            <div class="mensaje-escrito" id="textoAnimado"></div>
+            <div class="botones">
+                <button class="btn-si" onclick="respuestaSi()">Sí 💕</button>
+                <button class="btn-no" onclick="respuestaNo()">No 💔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA SÍ -->
+    <div id="paginaSi" class="pagina">
+        <div class="contenedor-si">
+            <div class="poema">
+                Si estamos aquí… las matemáticas salieron bien,<br>
+                y solo me queda decirte esto:<br><br>
+                Por cada<br>
+                1 beso de tu boca,<br>
+                2 abrazos te daría,<br>
+                3 caricias en silencio que<br>
+                4 veces te recuerden alegría,<br>
+                y en la 5ta sinfonía de tu,<br>
+                6to pensamiento,<br>
+                7 veces te diría,<br>
+                las 8 letras de un Te quiero, porque<br>
+                9 veces por ti respiro…<br>
+                y 10 veces, si hace falta, por ti muero.
+            </div>
+            <div class="emoji">":)"</div>
+            <button class="btn-volver" onclick="volverInicio()">Pag Anteior 💕</button>
+        </div>
+    </div>
+
+    <!-- PÁGINA NO -->
+    <div id="paginaNo" class="pagina">
+        <div class="contenedor-no">
+            <div class="texto">
+                Esta bien, gracias por el tiempo y experiencias. Fue chévere y diré que eres una gran persona Emilia.... y pues vale, esto:<br><br>
+                No soy muy expresivo pero tienes que saber que por ti hubiera provocado un incendio si alguien te faltara, si fuera necesario lo haría; pero si llegara a saber que solo estuve peleando con gigantes como el Quijote y todo estuvo en mi cabeza; ni siquiera podría prenderme un misero cigarro.
+            </div>
+            <button class="btn-volver" onclick="volverInicio()">Ver anterior</button>
+        </div>
+    </div>
+
+    <script>
+        // Mensaje completo para animación
+        const mensajeCompleto = `Las cosas a veces pasan sin aviso,
+sin planearse, sin buscarse.
+Y aun así, terminan siendo
+de los capítulos más importantes de la vida.
+
+Así fue contigo.
+Llegaste, cruzamos caminos, nos conocimos…
+y hoy estamos aquí, Emi.
+
+Tengo que confesarte algo:
+cuando empecé la etapa universitaria que tenia como pendiente,
+no quería conectar con nadie.
+Iba con la idea de pasar desapercibido…
+pero fallé desde el primer día. He conocido personas increíbles, hice amigos…encajé.
+Y pensé que ahí terminaría todo,
+como una anécdota más.
+
+Pero entonces… apareciste tú.
+
+Esa noche de noviembre,
+cuando me mandaste a llamar,
+creí que sería solo un momento random.
+
+Y no lo fue.
+
+Algo cambió, Algo se encendió.
+
+Desde entonces, el tiempo contigo
+dejó de sentirse como tiempo…
+y empezó a sentirse como algo que quiero seguir viviendo.
+
+A veces dudé de lo que hacia, quizás fui ambiguo,
+y  no fui muy claro contigo.
+
+Pero hoy entiendo algo:
+te llevo conmigo más de lo que imaginaba.
+
+Quiero seguir compartiendo contigo,
+quiero conocerte más, incluso aciertos y desaciertos,
+quiero aprender a quererte
+de la forma en que tú mereces.
+
+Y por eso hoy quiero ser claro contigo…
+
+Emilia, dueña de mis pensamientos
+¿quieres ser mi novia?`;
+
+        let index = 0;
+        const elementoTexto = document.getElementById("textoAnimado");
+        let escrito = false;
+
+        function escribirLetra() {
+            if (index < mensajeCompleto.length && !escrito) {
+                elementoTexto.innerHTML += mensajeCompleto.charAt(index);
+                index++;
+                setTimeout(escribirLetra, 30);
+                const contenedor = document.querySelector('.contenedor-principal');
+                if (contenedor) {
+                    contenedor.scrollTop = contenedor.scrollHeight;
+                }
+            }
+        }
+
+        escribirLetra();
+
+        function mostrarPagina(pagina) {
+            document.getElementById('paginaPrincipal').classList.remove('activa');
+            document.getElementById('paginaSi').classList.remove('activa');
+            document.getElementById('paginaNo').classList.remove('activa');
+            
+            if (pagina === 'principal') {
+                document.getElementById('paginaPrincipal').classList.add('activa');
+                document.body.className = 'pagina-principal';
+                // Reiniciar animación de escritura si no se ha completado
+                if (!escrito && index < mensajeCompleto.length) {
+                    escribirLetra();
+                }
+            } else if (pagina === 'si') {
+                document.getElementById('paginaSi').classList.add('activa');
+                document.body.className = 'pagina-si';
+                escrito = true; // Detener animación de escritura
+            } else if (pagina === 'no') {
+                document.getElementById('paginaNo').classList.add('activa');
+                document.body.className = 'pagina-no';
+                escrito = true;
+            }
+        }
+
+        function respuestaSi() {
+            mostrarPagina('si');
+        }
+
+        function respuestaNo() {
+            mostrarPagina('no');
+        }
+
+        function volverInicio() {
+            mostrarPagina('principal');
+        }
+    </script>
+</body>
+</html>
